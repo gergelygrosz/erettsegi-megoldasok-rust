@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["inf-emelt-2023-tavasz", "info"]
