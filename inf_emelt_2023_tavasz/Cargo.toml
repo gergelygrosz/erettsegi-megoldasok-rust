@@ -1,6 +1,0 @@
-[package]
-name = "inf_emelt_2023_tavasz"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
