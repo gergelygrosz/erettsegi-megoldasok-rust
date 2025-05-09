@@ -1,0 +1,6 @@
+[package]
+name = "digkult-kozep-2023-osz"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
