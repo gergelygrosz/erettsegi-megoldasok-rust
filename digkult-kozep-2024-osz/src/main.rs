@@ -31,7 +31,7 @@ fn main() {
     )
 }
 
-/// A megadott 15 számot tárolja el a programban egy megfelelő adatszerkezetben! A 15 szám rendelkezésre áll az <code>uvegek.txt</code> állományban, amelyből azok a program kódjába átmásolhatók.
+/// A megadott 15 számot tárolja el a programban egy megfelelő adatszerkezetben! A 15 szám rendelkezésre áll az `uvegek.txt` állományban, amelyből azok a program kódjába átmásolhatók.
 fn feladat1() -> [i32; 15] {
     let mut to_return = [-1; 15];
 
@@ -46,7 +46,7 @@ fn feladat1() -> [i32; 15] {
     to_return
 }
 
-/// Kérje be a mintának megfelelően, és tárolja el, hogy Mari néni hány deciliter lekvárt (<code>L</code>) főz be, ahol <code>L</code> értéke <code>0 &lt; L &le; 200</code>!
+/// Kérje be a mintának megfelelően, és tárolja el, hogy Mari néni hány deciliter lekvárt (`L`) főz be, ahol `L` értéke `0 &lt; L &le; 200`!
 fn feladat2() -> i32 {
     take_and_convert_user_input_aggressively::<i32>(
         "Adja meg a befőzött lekvár mennyiségét: (dl) ",
@@ -73,7 +73,7 @@ fn feladat3(jars: [i32; 15]) -> (i32, usize) {
     (max_volume, biggest_jar)
 }
 
-/// Írassa ki a képernyőre, hogy Mari néni <code>L</code> deciliter befőzött lekvárja elfér-e az üvegekben! Ha az üveg mennyiség elegendő, akkor írja ki, hogy „Elegendő üveg volt.”, különben azt, hogy „Maradt lekvár.”!
+/// Írassa ki a képernyőre, hogy Mari néni `L` deciliter befőzött lekvárja elfér-e az üvegekben! Ha az üveg mennyiség elegendő, akkor írja ki, hogy „Elegendő üveg volt.”, különben azt, hogy „Maradt lekvár.”!
 fn feladat4(jars: [i32; 15], amount: i32) -> bool {
     amount <= jars.iter().sum()
 }
