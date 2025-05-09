@@ -13,7 +13,7 @@ pub fn take_and_convert_user_input_aggressively<T: FromStr>(prompt: &str, error_
         let mut target = String::new();
         stdin()
             .read_line(&mut target)
-            .expect("Hiba történt a bemenet olvasása közben.");
+            .expect("should have been able to read user input");
 
         match target.trim_ascii().parse::<T>() {
             Ok(x) => return x,
