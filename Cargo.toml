@@ -1,3 +1,3 @@
 [workspace]
 resolver = "3"
-members = ["info", "user_input", "digkult-kozep-2024-osz", "digkult-kozep-2024-tavasz", "digkult-kozep-2023-osz"]
+members = ["info", "user_input", "digkult-kozep-2024-osz", "digkult-kozep-2024-tavasz", "digkult-kozep-2023-osz", "digkult-kozep-2023-tavasz"]
