@@ -1,0 +1,7 @@
+[package]
+name = "digkult-kozep-2025-tavasz"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+user_input = { path="../user_input" }
