@@ -5,7 +5,7 @@ use std::{
 
 /// Reads lines from stdin until the input can be parsed to `T`.
 /// Displays `prompt`, and asks for input.
-/// If the input can't be parsed to T, displays `error_msg`.
+/// If the input can't be parsed to `T`, displays `error_msg`.
 ///
 /// # Examples
 /// ```
