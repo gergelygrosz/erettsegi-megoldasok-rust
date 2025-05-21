@@ -7,3 +7,6 @@
 **/*.pdb
 
 **/Makefile
+
+# Output-fájlok
+digkult-emelt-2025-tavasz/tabla.html

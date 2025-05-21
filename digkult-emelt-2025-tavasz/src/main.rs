@@ -1,37 +1,20 @@
-use std::fmt;
 use std::fs;
 
+use book::Book;
+use html_table::Table;
+
+mod book;
 mod html_table;
 
-const FILE_PATH: &str = "digkult-emelt-2025-tavasz/kiadas.txt";
-
-#[derive(Debug)]
-struct Book {
-    year: i32,
-    quarter: i32,
-    hungarian: bool,
-    desc: String,
-    copies: i32,
-}
-
-impl fmt::Display for Book {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "{};{};{};{};{}",
-            self.year,
-            self.quarter,
-            if self.hungarian { "ma" } else { "kf" },
-            self.desc,
-            self.copies
-        )
-    }
-}
+const INPUT_FILE: &str = "digkult-emelt-2025-tavasz/kiadas.txt";
+const OUTPUT_FILE: &str = "digkult-emelt-2025-tavasz/tabla.html";
+const FIRST_YEAR: i32 = 2020;
+const LAST_YEAR: i32 = 2023;
 
 fn read_file() -> Vec<Book> {
     let mut books: Vec<Book> = vec![];
 
-    let file = fs::read_to_string(FILE_PATH).expect("Hiba történt a fájl beolvasása során.");
+    let file = fs::read_to_string(INPUT_FILE).expect("Hiba történt a fájl beolvasása során.");
     for line in file.lines() {
         let line: Vec<&str> = line.trim().split(';').collect();
 
@@ -91,46 +74,84 @@ fn main() {
     );
 
     println!("\n5. feladat");
-    let x = html_table::HtmlTable {
-        header: vec![
-            String::from("Év"),
-            String::from("Magyar kiadás"),
-            String::from("Magyar példányszám"),
-            String::from("Külföldi kiadás"),
-            String::from("Külföldi példányszám"),
-        ],
-        rows: vec![
-            vec![
-                String::from("2020"),
-                String::from("45"),
-                String::from("834005"),
-                String::from("29"),
-                String::from("416000"),
-            ],
-            vec![
-                String::from("2021"),
-                String::from("49"),
-                String::from("779130"),
-                String::from("52"),
-                String::from("736900"),
-            ],
-            vec![
-                String::from("2022"),
-                String::from("63"),
-                String::from("1115210"),
-                String::from("42"),
-                String::from("649639"),
-            ],
-            vec![
-                String::from("2023"),
-                String::from("41"),
-                String::from("625185"),
-                String::from("40"),
-                String::from("536000"),
-            ],
-        ],
+    let header: Vec<String> = vec![
+        String::from("Év"),
+        String::from("Magyar kiadás"),
+        String::from("Magyar példányszám"),
+        String::from("Külföldi kiadás"),
+        String::from("Külföldi példányszám"),
+    ];
+
+    let mut body: Vec<Vec<i32>> = Vec::new();
+    for year in FIRST_YEAR..(LAST_YEAR + 1) {
+        let current_row: Vec<i32> = vec![
+            year,
+            books
+                .iter()
+                .filter(|b| b.year == year && b.hungarian)
+                .count() as i32, // Magyar kiadás
+            books
+                .iter()
+                .filter_map(|b| {
+                    if b.year == year && b.hungarian {
+                        Some(b.copies)
+                    } else {
+                        None
+                    }
+                })
+                .sum::<i32>() as i32, // Magyar példányszám
+            books
+                .iter()
+                .filter(|b| b.year == year && !b.hungarian)
+                .count() as i32, // Külföldi kiadás
+            books
+                .iter()
+                .filter_map(|b| {
+                    if b.year == year && !b.hungarian {
+                        Some(b.copies)
+                    } else {
+                        None
+                    }
+                })
+                .sum::<i32>() as i32, // Külföldi példányszám
+        ];
+        body.push(current_row);
+    }
+
+    let table = Table {
+        headers: header,
+        body: body,
     };
 
-    let html = x.generate_html();
-    println!("{}", html)
+    print!("{}", table.generate_string());
+    fs::write(OUTPUT_FILE, table.generate_html()).expect("Hiba történt a fájl kiírása során.");
+
+    println!("\n6. feladat");
+    let mut duplicate_descs: Vec<String> = vec![];
+
+    for current_book in &books {
+        if duplicate_descs.contains(&current_book.desc) {
+            continue;
+        }
+
+        if books
+            .iter()
+            .filter_map(|given_book| {
+                if given_book.desc == current_book.desc && given_book.copies > current_book.copies {
+                    Some(&given_book.desc)
+                } else {
+                    None
+                }
+            })
+            .count()
+            >= 2
+        {
+            duplicate_descs.push(current_book.desc.clone());
+        }
+    }
+
+    println!("Legalább kétszer, nagyobb példányszámban újra kiadott könyvek:");
+    for desc in duplicate_descs {
+        println!("{}", desc)
+    }
 }
